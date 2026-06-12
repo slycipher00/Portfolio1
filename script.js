@@ -1,10 +1,10 @@
 /* ============================================================
    MOHAMMED MUNEER — CYBERSECURITY PORTFOLIO
-   script.js  |  Tabbed Version
+   script.js  |  One-Page Scrollable Version
    ============================================================
    UPDATE GUIDE:
    - MEDIUM_USERNAME: change to your Medium handle (no @)
-   - TYPEWRITER_ROLES: add/remove the animated roles
+   - TYPEWRITER_ROLES: add/remove the roles in the animation
    ============================================================ */
 
 // ── MEDIUM RSS CONFIG ──────────────────────────────────────
@@ -12,7 +12,7 @@
 const MEDIUM_USERNAME = 'm.munr44';
 
 // ── TYPEWRITER ROLES ───────────────────────────────────────
-// UPDATE: Add/remove roles
+// UPDATE: Add/remove roles to match what you do
 const TYPEWRITER_ROLES = [
   'Security Analyst',
   'Cybersecurity Content Engineer',
@@ -24,66 +24,45 @@ const TYPEWRITER_ROLES = [
 // ── FOOTER YEAR ────────────────────────────────────────────
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// ── TAB NAVIGATION ─────────────────────────────────────────
-const navLinks    = document.querySelectorAll('.sidebar-nav a[data-tab]');
-const tabPanels   = document.querySelectorAll('.tab-panel');
-const breadcrumb  = document.getElementById('breadcrumb');
-
-function switchTab(tabId) {
-  // Hide all panels
-  tabPanels.forEach(p => p.classList.remove('active'));
-  // Deactivate all nav links
-  navLinks.forEach(l => l.classList.remove('active'));
-
-  // Show target panel
-  const panel = document.getElementById(`tab-${tabId}`);
-  if (panel) panel.classList.add('active');
-
-  // Activate nav link
-  const link = document.querySelector(`.sidebar-nav a[data-tab="${tabId}"]`);
-  if (link) link.classList.add('active');
-
-  // Update breadcrumb
-  if (breadcrumb) breadcrumb.innerHTML = `<span>${tabId}</span>`;
-
-  // Load Medium feed when blog tab is opened
-  if (tabId === 'blog') loadMediumPosts();
-}
-
-navLinks.forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-    const tabId = link.getAttribute('data-tab');
-    switchTab(tabId);
-    // Close mobile sidebar
-    document.getElementById('sidebar').classList.remove('open');
-  });
+// ── NAVBAR SCROLL EFFECT ───────────────────────────────────
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 40);
+  highlightActiveNav();
 });
 
-// ── MOBILE SIDEBAR TOGGLE ──────────────────────────────────
-const mobileBtn = document.getElementById('mobile-menu-btn');
-const sidebar   = document.getElementById('sidebar');
+// ── HAMBURGER MOBILE MENU ──────────────────────────────────
+const hamburger = document.getElementById('hamburger');
+const navLinks  = document.getElementById('nav-links');
+hamburger.addEventListener('click', () => {
+  navLinks.classList.toggle('open');
+});
 
-if (mobileBtn) {
-  mobileBtn.addEventListener('click', () => {
-    sidebar.classList.toggle('open');
+// Close mobile menu when a link is clicked
+navLinks.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => navLinks.classList.remove('open'));
+});
+
+// ── ACTIVE NAV HIGHLIGHTING ────────────────────────────────
+function highlightActiveNav() {
+  const sections = document.querySelectorAll('section[id]');
+  const links    = document.querySelectorAll('.nav-links a');
+  let current    = '';
+
+  sections.forEach(section => {
+    if (window.scrollY >= section.offsetTop - 100) {
+      current = section.id;
+    }
+  });
+
+  links.forEach(link => {
+    link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
   });
 }
-
-// Close sidebar when clicking outside on mobile
-document.addEventListener('click', (e) => {
-  if (window.innerWidth <= 768 &&
-      !sidebar.contains(e.target) &&
-      e.target !== mobileBtn) {
-    sidebar.classList.remove('open');
-  }
-});
 
 // ── TYPEWRITER ANIMATION ───────────────────────────────────
 (function typewriter() {
   const el     = document.getElementById('typed');
-  if (!el) return;
-
   let roleIdx  = 0;
   let charIdx  = 0;
   let deleting = false;
@@ -94,6 +73,7 @@ document.addEventListener('click', (e) => {
     el.textContent = current;
 
     if (!deleting && current === role) {
+      // Pause at end before deleting
       setTimeout(() => { deleting = true; tick(); }, 2000);
       return;
     }
@@ -113,18 +93,30 @@ document.addEventListener('click', (e) => {
   tick();
 })();
 
+// ── SCROLL FADE-IN ANIMATIONS ──────────────────────────────
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.12 }
+);
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
 // ── MEDIUM RSS FEED ────────────────────────────────────────
-let mediumLoaded = false;
-
+// Uses rss2json.com to convert Medium's RSS feed to JSON
+// (free tier, no API key needed for low traffic)
 async function loadMediumPosts() {
-  if (mediumLoaded) return;
-  mediumLoaded = true;
-
   const grid    = document.getElementById('blog-grid');
   const loading = document.getElementById('blog-loading');
 
-  const RSS_URL = `https://medium.com/feed/@${MEDIUM_USERNAME}`;
-  const API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`;
+  const RSS_URL  = `https://medium.com/feed/@${MEDIUM_USERNAME}`;
+  const API_URL  = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`;
 
   try {
     const res  = await fetch(API_URL);
@@ -132,18 +124,20 @@ async function loadMediumPosts() {
 
     if (data.status !== 'ok' || !data.items?.length) throw new Error('No posts found');
 
-    if (loading) loading.style.display = 'none';
+    loading.style.display = 'none';
 
+    // Show up to 6 most recent posts
     data.items.slice(0, 6).forEach(post => {
       const date    = new Date(post.pubDate).toLocaleDateString('en-CA', { year:'numeric', month:'short', day:'numeric' });
+      // Strip HTML tags from description for excerpt
       const excerpt = post.description.replace(/<[^>]+>/g, '').slice(0, 160).trim() + '…';
 
       const card = document.createElement('a');
-      card.className = 'blog-card';
-      card.href      = post.link;
-      card.target    = '_blank';
-      card.rel       = 'noopener noreferrer';
-      card.innerHTML = `
+      card.className  = 'blog-card';
+      card.href       = post.link;
+      card.target     = '_blank';
+      card.rel        = 'noopener noreferrer';
+      card.innerHTML  = `
         <div class="blog-date">${date}</div>
         <div class="blog-title">${post.title}</div>
         <div class="blog-excerpt">${excerpt}</div>
@@ -153,13 +147,16 @@ async function loadMediumPosts() {
     });
 
   } catch (err) {
-    if (loading) loading.textContent = '// Could not load posts — visit Medium directly.';
+    loading.textContent = '// Could not load posts — visit Medium directly.';
+    // Fallback: show a static link to Medium profile
     const fallback = document.createElement('a');
-    fallback.href       = `https://medium.com/@${MEDIUM_USERNAME}`;
-    fallback.className  = 'btn';
-    fallback.target     = '_blank';
+    fallback.href  = `https://medium.com/@${MEDIUM_USERNAME}`;
+    fallback.className = 'btn';
+    fallback.target    = '_blank';
     fallback.textContent = 'View on Medium ↗';
-    if (grid) grid.appendChild(fallback);
+    grid.appendChild(fallback);
     console.error('Medium RSS error:', err);
   }
 }
+
+loadMediumPosts();
