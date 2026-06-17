@@ -159,4 +159,17 @@ async function loadMediumPosts() {
   }
 }
 
+// UTC clock for hero dashboard
+function updateUtcClock() {
+  const clock = document.getElementById("utc-clock");
+  if (!clock) return;
+
+  const now = new Date();
+  clock.textContent = now.toISOString().slice(11, 19) + " UTC";
+}
+
+updateUtcClock();
+setInterval(updateUtcClock, 1000);
+
+
 loadMediumPosts();
