@@ -50,47 +50,114 @@
         </div>
       </div>
       
-<!-- Right: SOC dashboard visual -->
-<div class="hero-dashboard">
-  <div class="dash-head">
-    <div class="dash-left">
-      <span class="dash-pulse"></span>
-      <span class="dash-label">SOC · DETECTION ENGINEERING</span>
+<!-- Right: SOC command dashboard -->
+<div class="soc-dash-wrap">
+  <div class="soc-dash">
+
+    <div class="soc-dash-head">
+      <div class="soc-head-left">
+        <span class="soc-live-dot"></span>
+        <span class="soc-mono">SOC OPS · DETECTION GRID</span>
+      </div>
+      <div class="soc-head-right">
+        <span>SECURE SESSION</span>
+        <span class="soc-ok">● <span id="utc-clock">UTC</span></span>
+      </div>
     </div>
-    <div class="dash-status">
-      <span>LIVE</span>
-      <span id="utc-clock">UTC</span>
+
+    <div class="soc-dash-grid">
+
+      <div class="soc-card soc-feed-card">
+        <div class="soc-card-head">
+          <span>THREAT FEED</span>
+          <span class="soc-chip">AUTO TRIAGE</span>
+        </div>
+        <div class="soc-feed">
+          <div><span class="soc-time">00:12</span><span class="soc-badge detect">DETECT</span><span>Suspicious PowerShell</span></div>
+          <div><span class="soc-time">00:10</span><span class="soc-badge hunt">HUNT</span><span>Impossible travel pattern</span></div>
+          <div><span class="soc-time">00:08</span><span class="soc-badge detect">DETECT</span><span>C2 beacon behavior</span></div>
+          <div><span class="soc-time">00:05</span><span class="soc-badge alert">REVIEW</span><span>Privilege escalation signal</span></div>
+          <div><span class="soc-time">00:03</span><span class="soc-badge block">BLOCKED</span><span>Credential stuffing attempt</span></div>
+        </div>
+      </div>
+
+      <div class="soc-card soc-map-card">
+        <div class="soc-card-head">
+          <span>TELEMETRY MAP</span>
+          <span>LIVE</span>
+        </div>
+        <div class="soc-map">
+          <span class="map-dot d1"></span>
+          <span class="map-dot d2"></span>
+          <span class="map-dot d3"></span>
+          <span class="map-dot d4"></span>
+          <span class="map-dot d5"></span>
+          <span class="map-line l1"></span>
+          <span class="map-line l2"></span>
+        </div>
+        <div class="soc-map-chips">
+          <span class="soc-chip ok">SIEM</span>
+          <span class="soc-chip">EDR</span>
+          <span class="soc-chip">NDR</span>
+        </div>
+      </div>
+
+      <div class="soc-card soc-telemetry-card">
+        <div class="soc-card-head">
+          <span>LIVE TELEMETRY</span>
+          <span>5s avg</span>
+        </div>
+
+        <div class="soc-metric-row">
+          <div>
+            <span class="soc-metric-label">Alerts triaged</span>
+            <span class="soc-metric-value">250+</span>
+          </div>
+          <div class="soc-sparkline"></div>
+        </div>
+
+        <div class="soc-metric-row">
+          <div>
+            <span class="soc-metric-label">Use cases built</span>
+            <span class="soc-metric-value blue">50+</span>
+          </div>
+          <div class="soc-sparkline alt"></div>
+        </div>
+
+        <div class="soc-metric-row">
+          <div>
+            <span class="soc-metric-label">Intel briefs</span>
+            <span class="soc-metric-value green">48</span>
+          </div>
+          <div class="soc-sparkline green"></div>
+        </div>
+      </div>
+
+      <div class="soc-card soc-status-card">
+        <div class="soc-status">ACTIVE</div>
+        <div class="soc-status-sub">Detection · Investigation · Response</div>
+
+        <div class="soc-ring-row">
+          <div class="soc-ring">
+            <span>92</span>
+          </div>
+          <div>
+            <div class="soc-ring-label">Coverage posture</div>
+            <div class="soc-ring-delta">+ tuned logic</div>
+          </div>
+        </div>
+      </div>
+
     </div>
-  </div>
 
-  <div class="dash-body">
-  <div class="dash-metric">
-    <span class="metric-value">SIEM</span>
-    <span class="metric-label">Detection Engineering</span>
-  </div>
+    <div class="soc-dash-foot">
+      <span>$ detection-grid --mode=monitor --signal=high</span>
+      <span>workflow ready_</span>
+    </div>
 
-  <div class="dash-metric">
-    <span class="metric-value">EDR</span>
-    <span class="metric-label">Threat Investigation</span>
-  </div>
-
-  <div class="dash-metric">
-    <span class="metric-value">NDR</span>
-    <span class="metric-label">Network Visibility</span>
-  </div>
-
-  <div class="dash-metric">
-    <span class="metric-value">SOAR</span>
-    <span class="metric-label">Response Workflows</span>
-  </div>
-
-  <div class="dash-stream">
-    <div><span class="stream-dot"></span> Monitoring use case deployed</div>
-    <div><span class="stream-dot"></span> Suspicious activity triaged</div>
-    <div><span class="stream-dot"></span> Threat intelligence mapped</div>
-    <div><span class="stream-dot"></span> Detection logic tuned</div>
   </div>
 </div>
+
 
   </div>
 </div>
