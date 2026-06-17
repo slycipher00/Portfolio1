@@ -14,11 +14,11 @@ const MEDIUM_USERNAME = 'm.munr44';
 // ── TYPEWRITER ROLES ───────────────────────────────────────
 // UPDATE: Add/remove roles to match what you do
 const TYPEWRITER_ROLES = [
-  'Security Analyst',
-  'Cybersecurity Content Engineer',
-  'Malware Analyst',
+  'Security Analyst Level 3',
+  'Detection Engineer',
   'Incident Responder',
-  'DFIR Practitioner',
+  'Malware Analyst',
+  'Cybersecurity Course Author',
 ];
 
 // ── FOOTER YEAR ────────────────────────────────────────────
