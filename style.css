@@ -809,3 +809,118 @@ footer span { color: var(--cyan); }
   .nav-links.open { display: flex; }
   .hamburger { display: flex; }
 }
+
+/* Hero SOC dashboard visual */
+.hero-dashboard {
+  width: 360px;
+  max-width: 100%;
+  background: rgba(5, 18, 30, 0.92);
+  border: 1px solid rgba(0, 229, 255, 0.35);
+  border-radius: 18px;
+  box-shadow: 0 0 35px rgba(0, 229, 255, 0.12);
+  overflow: hidden;
+}
+
+.dash-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(0, 229, 255, 0.18);
+  background: rgba(0, 229, 255, 0.04);
+}
+
+.dash-left,
+.dash-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dash-label,
+.dash-status {
+  font-family: monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--fg-muted);
+}
+
+.dash-status span:first-child {
+  color: var(--ok);
+}
+
+.dash-pulse {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--ok);
+  box-shadow: 0 0 12px var(--ok);
+}
+
+.dash-body {
+  padding: 18px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.dash-metric {
+  padding: 14px;
+  border: 1px solid rgba(0, 229, 255, 0.14);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.metric-value {
+  display: block;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--fg);
+  line-height: 1;
+}
+
+.metric-label {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--fg-muted);
+}
+
+.dash-stream {
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(0, 229, 255, 0.04);
+  border: 1px solid rgba(0, 229, 255, 0.12);
+  font-family: monospace;
+  font-size: 12px;
+  color: var(--fg-muted);
+}
+
+.dash-stream div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 7px 0;
+}
+
+.stream-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ok);
+  box-shadow: 0 0 8px var(--ok);
+}
+
+@media (max-width: 768px) {
+  .hero-dashboard {
+    width: 100%;
+    margin-top: 2rem;
+  }
+
+  .dash-body {
+    grid-template-columns: 1fr;
+  }
+}
